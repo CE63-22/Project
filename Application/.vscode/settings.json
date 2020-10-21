@@ -2,11 +2,12 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        ".",
+        "./venv",
         "-p",
-        "*test.py"
+        "test*.py"
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "python.testing.unittestEnabled": true
+    "python.testing.unittestEnabled": true,
+    "python.pythonPath": "c:\\Users\\Ithur\\Documents\\GitHub\\Project22\\Application\\venv\\Scripts\\python.exe"
 }

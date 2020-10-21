@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "audiobookp22",
+  "private_key_id": "e21952d138235082c30d53a6433016fe7af2020e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC2cVzpcVp8QqrN\ndvmcbCyZAWdRhUnehy3A8fqSeyWDZzlOBuSYAxt2rn3IDexleqOzW9ldSqCC5OZs\nokesj5PhW9ujQR5Q4f1x2+OLlCdJY4wKhM0nBJkMrBhNcP/Dl/GCS79wVybGAJom\n8sZiAR4wFCl/i2RKbgPIRkzMsdRF2QWVX4hTT5TdLx22YcLQbd61XK5KSCYepjFr\ndqOtT+u8iXgpdIT+a0I32npHr2awCYs10kke56X1uos2gDpDbR/9FtKD4Zt+P4m1\n9TFK69+Rel8e2z8nLvYIGYc578C6UV6o4bz2BkOyl+rX4F3w82FFokWK5F9zGCIj\nWGHGsdojAgMBAAECggEAUPAg8pWtuXPQF6ABI+KftG95eSKDP3xEEZWofuSwI0gf\nlZycPE4gmHnX5nE631hVmIQWfftWE0veZ/JkjssRpYhde+MvQl3H1QPiwnEDLt1B\nawc4hmdVSNhuXajUZt8ZLx9QulOHqY7p1H6fASqSzGydbm6WGykMd4SsnKEF1cgu\nGIQ5vRunwJwJ/Qb6EWKtm0qJNW5lZ9e6fNwTHBrG5qx+dFyE1s21msjspPLY1Ip1\n+3YhZCg7y7RnVxhaiZfH9M3zgGoE56JzmmUO7skyJ1zhwD9KHG2udSOqRi3eL/cT\n47nyjK9Yl+u1mY34EA/UCD/cl9RiflQswTZMmOrJOQKBgQDou32KXs3LvlcYZ11D\njGTGRLdCDcQRZjvCunl+Wiyx+IfV1lYxKGBQc74WJDaPplinrG78HgmMOS/Rp3ru\nLN1AmzoAkQs1z0cL3d0yenEu4AcsM2ByKz7o1SSOcYDDGreL7vf09QiCNYPR39EV\np42ugP/pUXZeUfJ1ImbjmrckuQKBgQDIrsVVgR1Klz2JZ5MuR2WYmvqtSIrn/lJU\njZRBxILnnsIFfw0TqIQopcBJlXqTlqEndXhWT+ZdSerF/uY4C0nxb6SmiXEdggAl\nOTYKGEu73bv4kFSP3xBKvRDuyCjLVvmk/HQqn2t/m4O9a+JPWjhY9g6zzR64vfHM\n9BiuWKS/uwKBgE78IrUtS6bUKHbtzac5JJJti8xtI5fMHIgQBV+udvDHqkIWhhYU\n3+st/NtC2wmRqRDu4pPKFe9zERmUP5JJw6VDiUHb9/QBLtmGKKYTDAqemZCUtyzI\nJIecntWBC/QrQxPIvHp0FrkqNFysGyfAP8NzoGas8QE9yo2aaVThkzpxAoGBAJme\n8ABcLggDbl/YoZoznVoMiQhNF8gvruZ62prdyzdzGCMM9v2taj2TZHbvrj18eTCz\ng8LOtxGCm+2lCqasPZZMWEYDwEtOUL4t5Wgk4RSW0GWeVp0rrFUKFgQzxMajdccO\nWf6muqucaGSASWVlMu0mrmqFApd5D7hMwvfzc2oxAoGBANydsxrHJdspVi7XJ2Xx\n3rE3dKcIqc1q3RC1ROmwdrgAeIfEzpkt/1/rxOhvPhnU3t0s5K3MLIjuIQ/phEl6\nI3R0oW6rmLmKrtNNms7NCnDIurfIrbSJnj5pZOMKEweIVJ2sJlFePdqJvEk3q6P5\nBwDFYp2UI1K8qt9fcW6rMAOA\n-----END PRIVATE KEY-----\n",
+  "client_email": "python22@audiobookp22.iam.gserviceaccount.com",
+  "client_id": "114574825332989430256",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/python22%40audiobookp22.iam.gserviceaccount.com"
+}
