@@ -6,14 +6,14 @@ if __name__ == "__main__":
         transcript_filename = audio_file_name.split('.')[0] + '.txt'
         write_transcripts(transcript_filename,transcript)'''
 
-import quickstart
+#import quickstart
 
-from google.cloud import speech_v1 as speech
+'''from google.cloud import speech_v1 as speech
 
 
 def speech_to_text(config, audio):
     client = speech.SpeechClient()
-    response = client.recognize(config, audio)
+    response = client.recognize(config=config, audio=audio)
     print_sentences(response)
 
 
@@ -33,6 +33,28 @@ audio = {'uri': 'gs://cloud-samples-data/speech/brooklyn_bridge.flac'}
 
 if __name__ == "__main__":
     #quickstart.run()
-    speech_to_text(config, audio)
+    speech_to_text(config, audio)'''
+
+# Imports the Google Cloud client library
+from google.cloud import datastore
+
+# Instantiates a client
+datastore_client = datastore.Client()
+
+# The kind for the new entity
+kind = 'Task'
+# The name/ID for the new entity
+name = 'sampletask1'
+# The Cloud Datastore key for the new entity
+task_key = datastore_client.key(kind, name)
+
+# Prepares the new entity
+task = datastore.Entity(key=task_key)
+task['description'] = 'Buy milk'
+
+# Saves the entity
+datastore_client.put(task)
+
+print('Saved {}: {}'.format(task.key.name, task['description']))
 
     

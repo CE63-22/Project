@@ -29,6 +29,3 @@ def run():
 
     for result in response.results:
         print("Transcript: {}".format(result.alternatives[0].transcript))
-
-if __name__ == "__main__":
-    run()
