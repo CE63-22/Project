@@ -1,0 +1,29 @@
+{
+    "data":[
+        {
+            "name"  : "gsSample",
+            "isURI" : true,
+            "lang"  : "en-US",
+            "path"  : "gs://cloud-samples-tests/speech/brooklyn.flac",
+            "script": "how old is the Brooklyn Bridge"
+        },{
+            "name"  : "engSample",
+            "isURI" : false,
+            "lang"  : "en-US",
+            "path"  : "resource/audio.raw",
+            "script": "how old is the Brooklyn Bridge"
+        },{
+            "name"  : "engSample2",
+            "isURI" : false,
+            "lang"  : "en-US",
+            "path"  : "resource/audio2.raw",
+            "script": "the rain in Spain stays mainly on the plain"
+        },{
+            "name"  : "thSample",
+            "isURI" : false,
+            "lang"  : "th-TH",
+            "path"  : "",
+            "script": ""
+        }
+    ]
+}

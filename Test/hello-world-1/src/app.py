@@ -1,5 +1,6 @@
 import os
 import io
+import json
 
 from flask import Flask, render_template
 from pydub import AudioSegment
@@ -9,43 +10,25 @@ app = Flask(__name__)
 
 sampleRate = 16000
 
-lang_list = ["en-US","th-TH"]
-lang = lang_list[0]
+with open('src/data.json') as json_file:
+    data = json.load(json_file)
+    datalist = data["data"]
 
-path_list=[
-    "gs://cloud-samples-tests/speech/brooklyn.flac",    #0
-    "C:\\Users\\Ithur\\Documents\\GitHub\\Project22\\Dataset\\08ith.mp3",   #1
-    "resource\\audio.raw", #2
-    "resource\\audio2.raw",    #3
-    "resource\\Recording (2).m4a",  #4
-    "resource\\Recording (2).wav",  #5
-    "resource\\commercial_mono.wav" #6
-]
-path = path_list[6]
+index = 2
 
-def convert(source):
-    if(source.endswith(".m4a")):
-        print(" --------m4a--------\n")
-        audio = AudioSegment.from_file(source, "m4a")
-        audio.export("raw/source.raw", format="raw")
-        print(" -finised conversion-\n")
-        return "raw/source.raw"
-    elif(source.endswith(".wav")):
-        print(" --------wav--------\n")
-        audio = AudioSegment.from_file(source, "wav")
-        audio.export("raw/source.raw", format="raw")
-        print(" -finised conversion-\n")
-        return "raw/source.raw"
-    else:
-        return source
+filejson = datalist[index]
+lang = filejson["lang"]
         
 
-def transcribe_file(speech_file):
+def transcribe_file(filejson):
     from google.cloud import speech
+
+    script = filejson["script"]
+    path = filejson["path"]
 
     client = speech.SpeechClient()
 
-    with io.open(speech_file, "rb") as audio_file:
+    with io.open(path, "rb") as audio_file:
         content = audio_file.read()
 
     audio = speech.RecognitionAudio(content=content)
@@ -65,15 +48,25 @@ def transcribe_file(speech_file):
     response = operation.result(timeout=90)
 
     for result in response.results:
-        print(u"Transcript: {}".format(result.alternatives[0].transcript))
-        print("Confidence: {}".format(result.alternatives[0].confidence))
+        transcript = result.alternatives[0].transcript
+        confidence = result.alternatives[0].confidence*100
+        print(u"Transcript: {}".format(transcript))
+        print("Confidence: {}%".format(confidence))
+        print("Script: {}".format(script))
+        if script.upper()==transcript.upper():
+            print("Transcription Result: Matched")
+        else:
+            print("Transcription Result: Not matched")
 
-def transcribe_gcs(gcs_uri):
+def transcribe_gcs(filejson):
     from google.cloud import speech
+
+    script = filejson["script"]
+    path = filejson["path"]
 
     client = speech.SpeechClient()
 
-    audio = speech.RecognitionAudio(uri=gcs_uri)
+    audio = speech.RecognitionAudio(uri=path)
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
         sample_rate_hertz=sampleRate,
@@ -83,16 +76,22 @@ def transcribe_gcs(gcs_uri):
     response = client.recognize(config=config, audio=audio)
 
     for result in response.results:
-        print(u"Transcript: {}".format(result.alternatives[0].transcript))
+        transcript = result.alternatives[0].transcript
+        print("Transcript: "+transcript)
+        print("Script: "+script)
 
+        if script.upper()==transcript.upper():
+            print("Transcription Result: Matched")
+        else:
+            print("Transcription Result: Not matched")
 
 if __name__ == '__main__':
     print("\n\n---start---\n")
-    if path.startswith("gs://"):
-        transcribe_gcs(path)
+    if filejson["isURI"]:
+        print("Transcribing File '"+filejson['name']+"' on URI: "+filejson['path'])
+        transcribe_gcs(filejson)
     else:
-        path = convert(path)
-        print("Transcribe File on path: "+path)
-        transcribe_file(path)
+        print("Transcribing File '"+filejson['name']+"' on path: "+filejson['path'])
+        transcribe_file(filejson)
     print("\n----end----\n\n")
 
