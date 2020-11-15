@@ -1,29 +1,33 @@
 {
     "data":[
         {
-            "name"  : "gsSample",
+            "name"  : "gsSample_google",
             "isURI" : true,
             "lang"  : "en-US",
-            "path"  : "gs://cloud-samples-tests/speech/brooklyn.flac",
-            "script": "how old is the Brooklyn Bridge"
+            "channel_count" : 2,
+            "path"  : "gs://cloud-samples-tests/speech/multi.wav",
+            "script": "how are you doing estoy bien e tu"
+        },{
+            "name"  : "engSample_google",
+            "isURI" : false,
+            "lang"  : "en-US",
+            "channel_count" : 2,
+            "path"  : "resources/multi.wav",
+            "script": "how are you doing estoy bien e tu"
         },{
             "name"  : "engSample",
             "isURI" : false,
             "lang"  : "en-US",
-            "path"  : "resource/audio.raw",
+            "channel_count" : 1,
+            "path"  : "resources/demoEng.wav",
             "script": "how old is the Brooklyn Bridge"
-        },{
-            "name"  : "engSample2",
-            "isURI" : false,
-            "lang"  : "en-US",
-            "path"  : "resource/audio2.raw",
-            "script": "the rain in Spain stays mainly on the plain"
         },{
             "name"  : "thSample",
             "isURI" : false,
             "lang"  : "th-TH",
-            "path"  : "",
-            "script": ""
+            "channel_count" : 2,
+            "path"  : "resources/demoTh.wav",
+            "script": "กาลครั้งหนึ่งนานมาแล้วมีลูกหมู 3 ตัวเป็นพี่น้องกันพวกมันออกเดินทางเพื่อจะหาที่สร้างบ้านคนละหลังเมื่อเดินทางมาถึงชายป่าแห่งพวกมันตัดสินใจจะสร้างบ้านบริเวณนี้ใกล้ๆกันและเดินทางไปตลาดเพื่อซื้อของสร้างบ้าน"
         }
     ]
 }

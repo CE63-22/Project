@@ -1,6 +1,7 @@
 import os
 import io
 import json
+import requests
 
 from flask import Flask, render_template
 from pydub import AudioSegment
@@ -8,16 +9,7 @@ from pydub import AudioSegment
 # pylint: disable=C0103
 app = Flask(__name__)
 
-sampleRate = 16000
-
-with open('src/data.json') as json_file:
-    data = json.load(json_file)
-    datalist = data["data"]
-
-index = 2
-
-filejson = datalist[index]
-lang = filejson["lang"]
+sampleRate = 44100
         
 
 def transcribe_file(filejson):
@@ -25,6 +17,8 @@ def transcribe_file(filejson):
 
     script = filejson["script"]
     path = filejson["path"]
+    channel = filejson["channel_count"]
+    lang = filejson["lang"]
 
     client = speech.SpeechClient()
 
@@ -37,61 +31,86 @@ def transcribe_file(filejson):
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=sampleRate,
         language_code=lang,
+        audio_channel_count=channel,
+        enable_separate_recognition_per_channel=True,
     )
 
-    operation = client.long_running_recognize(
+    '''operation = client.long_running_recognize(
         request={"config": config, "audio": audio}
     )
     operation = client.long_running_recognize(config=config, audio=audio)
 
     print("Waiting for operation to complete...")
-    response = operation.result(timeout=90)
+    response = operation.result(timeout=90)'''
+    response = client.recognize(config=config, audio=audio)
 
-    for result in response.results:
-        transcript = result.alternatives[0].transcript
-        confidence = result.alternatives[0].confidence*100
+    for i,result in enumerate(response.results):
+        alternative = result.alternatives[0]
+        transcript = alternative.transcript
+        print("-" * 20)
+        print("First alternative of result {}".format(i))
         print(u"Transcript: {}".format(transcript))
-        print("Confidence: {}%".format(confidence))
         print("Script: {}".format(script))
         if script.upper()==transcript.upper():
             print("Transcription Result: Matched")
+            print("-" * 20)
+            return 1
         else:
             print("Transcription Result: Not matched")
+        print(u"Channel Tag: {}".format(result.channel_tag))
+    return 0
 
 def transcribe_gcs(filejson):
     from google.cloud import speech
 
     script = filejson["script"]
     path = filejson["path"]
+    channel = filejson["channel_count"]
+    lang = filejson["lang"]
 
     client = speech.SpeechClient()
 
     audio = speech.RecognitionAudio(uri=path)
     config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
+        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=sampleRate,
         language_code=lang,
+        audio_channel_count=channel,
+        enable_separate_recognition_per_channel=True,
     )
 
     response = client.recognize(config=config, audio=audio)
 
-    for result in response.results:
-        transcript = result.alternatives[0].transcript
-        print("Transcript: "+transcript)
-        print("Script: "+script)
+    for i,result in enumerate(response.results):
+        alternative = result.alternatives[0]
+        transcript = alternative.transcript
 
+        print("-" * 20)
+        print("First alternative of result {}".format(i))
+        print(u"Transcript: {}".format(transcript))
+        print("Script: "+script)
         if script.upper()==transcript.upper():
             print("Transcription Result: Matched")
+            print("-" * 20)
+            return 1
         else:
             print("Transcription Result: Not matched")
+        print(u"Channel Tag: {}".format(result.channel_tag))
+    return 0
 
-if __name__ == '__main__':
-    print("\n\n---start---\n")
+def wordMatcher_demo(index):
+
+    with open('src/data.json', encoding="utf-8") as json_file:
+        data = json.load(json_file)
+        datalist = data["data"]
+
+    filejson = datalist[index]
+
+    
     if filejson["isURI"]:
         print("Transcribing File '"+filejson['name']+"' on URI: "+filejson['path'])
-        transcribe_gcs(filejson)
+        return transcribe_gcs(filejson)
     else:
         print("Transcribing File '"+filejson['name']+"' on path: "+filejson['path'])
-        transcribe_file(filejson)
-    print("\n----end----\n\n")
+        return transcribe_file(filejson)
 
