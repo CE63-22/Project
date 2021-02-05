@@ -8,8 +8,6 @@ from pydub import AudioSegment
 
 # pylint: disable=C0103
 app = Flask(__name__)
-
-sampleRate = 44100
         
 
 def transcribe_file(filejson):
@@ -17,6 +15,7 @@ def transcribe_file(filejson):
 
     script = filejson["script"]
     path = filejson["path"]
+    sampleRate = filejson["sampleRate"]
     channel = filejson["channel_count"]
     lang = filejson["lang"]
 
@@ -35,13 +34,6 @@ def transcribe_file(filejson):
         enable_separate_recognition_per_channel=True,
     )
 
-    '''operation = client.long_running_recognize(
-        request={"config": config, "audio": audio}
-    )
-    operation = client.long_running_recognize(config=config, audio=audio)
-
-    print("Waiting for operation to complete...")
-    response = operation.result(timeout=90)'''
     response = client.recognize(config=config, audio=audio)
 
     for i,result in enumerate(response.results):
@@ -51,6 +43,9 @@ def transcribe_file(filejson):
         print("First alternative of result {}".format(i))
         print(u"Transcript: {}".format(transcript))
         print("Script: {}".format(script))
+        for(int i=0;i<script.):
+            for match in transcript.upper():
+                if word==
         if script.upper()==transcript.upper():
             print("Transcription Result: Matched")
             print("-" * 20)
@@ -66,6 +61,7 @@ def transcribe_gcs(filejson):
     script = filejson["script"]
     path = filejson["path"]
     channel = filejson["channel_count"]
+    sampleRate = filejson["sampleRate"]
     lang = filejson["lang"]
 
     client = speech.SpeechClient()

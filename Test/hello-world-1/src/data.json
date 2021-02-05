@@ -4,6 +4,7 @@
             "name"  : "gsSample_google",
             "isURI" : true,
             "lang"  : "en-US",
+            "sampleRate" : 44100,
             "channel_count" : 2,
             "path"  : "gs://cloud-samples-tests/speech/multi.wav",
             "script": "how are you doing estoy bien e tu"
@@ -11,6 +12,7 @@
             "name"  : "engSample_google",
             "isURI" : false,
             "lang"  : "en-US",
+            "sampleRate" : 44100,
             "channel_count" : 2,
             "path"  : "resources/multi.wav",
             "script": "how are you doing estoy bien e tu"
@@ -18,6 +20,7 @@
             "name"  : "engSample",
             "isURI" : false,
             "lang"  : "en-US",
+            "sampleRate" : 44100,
             "channel_count" : 1,
             "path"  : "resources/demoEng.wav",
             "script": "how old is the Brooklyn Bridge"
@@ -25,9 +28,18 @@
             "name"  : "thSample",
             "isURI" : false,
             "lang"  : "th-TH",
+            "sampleRate" : 44100,
             "channel_count" : 2,
             "path"  : "resources/demoTh.wav",
-            "script": "กาลครั้งหนึ่งนานมาแล้วมีลูกหมู 3 ตัวเป็นพี่น้องกันพวกมันออกเดินทางเพื่อจะหาที่สร้างบ้านคนละหลังเมื่อเดินทางมาถึงชายป่าแห่งพวกมันตัดสินใจจะสร้างบ้านบริเวณนี้ใกล้ๆกันและเดินทางไปตลาดเพื่อซื้อของสร้างบ้าน"
+            "script": "กาลครั้งหนึ่งนานมาแล้วมีลูกหมู 3 ตัวเป็นพี่น้องกันพวกมันออกเดินทางเพื่อจะหาที่สร้างบ้านคนละหลังเมื่อเดินทางมาถึงชายป่าแห่งหนึ่งพวกมันตัดสินใจจะสร้างบ้านบริเวณนี้ใกล้ๆกันและเดินทางไปตลาดเพื่อซื้อของสร้างบ้าน"
+        },{
+            "name"  : "04Noey.wav",
+            "isURI" : false,
+            "lang"  : "th-TH",
+            "sampleRate" : 48000,
+            "channel_count" : 2,
+            "path"  : "resources/04Noey.wav",
+            "script": "กาลครั้งหนึ่งนานมาแล้วมีลูกหมู 3 ตัวเป็นพี่น้องกันพวกมันออกเดินทางเพื่อจะหาที่สร้างบ้านคนละหลังเมื่อเดินทางมาถึงชายป่าแห่งหนึ่งพวกมันตัดสินใจจะสร้างบ้านบริเวณนี้ใกล้ๆกันและเดินทางไปตลาดเพื่อซื้อของสร้างบ้านที่ใหญ่ซื้อฟางไปสร้างบ้านจะได้ไม่เหนื่อยและไม่หนักที่ลองซื้อเศษไม้ไปสร้างบ้านตอกตะปูไม่กี่ท ีก็เสร็จ"
         }
     ]
 }
