@@ -1,5 +1,6 @@
 from word_matching import wordMatcher_demo
 
+
 print("\n\n------start------\n")
 
 print("boolean result = "+str(
@@ -10,5 +11,7 @@ print("boolean result = "+str(
         # 2 = wavSample in English
         # 3 = wavSample in Thai
     ))
+
+
 
 print("\n\n-------end-------\n")
