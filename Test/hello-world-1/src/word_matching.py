@@ -3,6 +3,7 @@ import io
 import json
 import requests
 import deepcut
+from m4atowav import wavConverter
 
 from flask import Flask, render_template
 from pydub import AudioSegment
@@ -14,14 +15,20 @@ app = Flask(__name__)
 def transcribe_file(filejson):
     from google.cloud import speech
 
-    script = filejson["script"]
+    # script = filejson["script"]
+    script = open(filejson["script_path"],encoding='utf-8').read()
+    # while(wavConverter(filejson["name"])!=1):
+    #     print("converting...")
     path = filejson["path"]
+    # path = 'resource/' + filejson["name"].replace('m4a','wav')
     sampleRate = filejson["sampleRate"]
     channel = filejson["channel_count"]
     lang = filejson["lang"]
 
     script_words=deepcut.tokenize(script)
     script_words=spaceEliminator(script_words)
+
+    print("-"*10+"PLEASE WAIT"+"-"*10)
 
     client = speech.SpeechClient()
 
@@ -53,27 +60,25 @@ def transcribe_file(filejson):
         print("Script: {}".format(script))
         #print("Deepcut: {}".format(deepcut.tokenize(transcript)))
         match = 0
+            
+            #choosing which listhas the lesser lenght...
         if len(script_words) < len(transcript_words):
             shorterScriptCount = len(script_words)
         else:
             shorterScriptCount = len(transcript_words)
+
+            # ...and use it in matching.
         for i in range(shorterScriptCount):
-            print("\tDEBUG: MATCHING WORD:( "+transcript_words[i]+" , "+script_words[i]+" )")
+            # print("\tDEBUG: MATCHING WORD:( "+transcript_words[i]+" , "+script_words[i]+" )") # DEBUG
             if script_words[i] == transcript_words[i]:
-                print("\tDEBUG: MATCHING RESULT: MATCHED")
+                # print("\tDEBUG: MATCHING RESULT: MATCHED")        # DEBUG
                 match+=1
-            else:
-                print("\tDEBUG: MATCHING RESULT: NOT MATCHED")
+            # else:
+                # print("\tDEBUG: MATCHING RESULT: NOT MATCHED")    # DEBUG
         match_result=match/len(script_words)
-        print("Matched Result: {}".format(match_result))
-        # if script.upper()==transcript.upper():
-        #     print("Transcription Result: Matched")
-        #     print("-" * 20)
-        #     return 1
-        # else:
-        #     print("Transcription Result: Not matched")
-        print(u"Channel Tag: {}".format(result.channel_tag))
-    return 0
+        print("Matched Result: {} %".format(match_result*100))      # show match result in percentage.
+        print(u"Channel Tag: {}".format(result.channel_tag))        
+    return match_result
 
 def transcribe_gcs(filejson):
     from google.cloud import speech
@@ -83,6 +88,9 @@ def transcribe_gcs(filejson):
     channel = filejson["channel_count"]
     sampleRate = filejson["sampleRate"]
     lang = filejson["lang"]
+
+    script_words=deepcut.tokenize(script)
+    script_words=spaceEliminator(script_words)
 
     client = speech.SpeechClient()
 
@@ -101,18 +109,29 @@ def transcribe_gcs(filejson):
         alternative = result.alternatives[0]
         transcript = alternative.transcript
 
+        transcript_words=deepcut.tokenize(transcript)
+        transcript_words=spaceEliminator(transcript_words)
+
         print("-" * 20)
         print("First alternative of result {}".format(i))
         print(u"Transcript: {}".format(transcript))
         print("Script: "+script)
-        if script.upper()==transcript.upper():
-            print("Transcription Result: Matched")
-            print("-" * 20)
-            return 1
+        match = 0
+            
+            #choosing which listhas the lesser lenght...
+        if len(script_words) < len(transcript_words):
+            shorterScriptCount = len(script_words)
         else:
-            print("Transcription Result: Not matched")
+            shorterScriptCount = len(transcript_words)
+
+            # ...and use it in matching.
+        for i in range(shorterScriptCount):
+            if script_words[i] == transcript_words[i]:
+                match+=1
+        match_result=match/len(script_words)
+        print("Matched Result: {} %".format(match_result*100))      # show match result in percentage.
         print(u"Channel Tag: {}".format(result.channel_tag))
-    return 0
+    return match_result
 
 def wordMatcher_demo(index):
 
@@ -133,11 +152,11 @@ def wordMatcher_demo(index):
 def spaceEliminator(list):
     poppingIndexes = []
     for i in range(len(list)):
-        if list[i] is " ":
-            poppingIndexes.append(i)
-            print("\tDEBUG: POP INDEX: "+str(i)+" "+list[i])
-    print("\tDEBUG: POP LIST: {}".format(poppingIndexes))
+        if list[i] == " ":
+            poppingIndexes.append(i)                                # adding index in the list that is space in to poppingIndexes list.
+            # print("\tDEBUG: POP INDEX: "+str(i)+" "+list[i])      # DEBUG
+    # print("\tDEBUG: POP LIST: {}".format(poppingIndexes))         # DEBUG
     for i in reversed(poppingIndexes):
-        list.pop(i)
-        print("\tDEBUG: POPING: "+str(i)+" "+list[i])
+        list.pop(i)                                                 # remove space from the list according to the index given by poppingIndexes in reverse. (why in reverse? so the greater number of index don't change while removing a list's element.)
+        # print("\tDEBUG: POPING: "+str(i)+" "+list[i])             # DEBUG
     return list
