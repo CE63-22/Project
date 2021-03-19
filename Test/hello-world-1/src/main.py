@@ -1,5 +1,7 @@
 from word_matching import wordMatcher_demo
 from word_matching import wordMatcher_demo_index
+from word_matching import speedCounter_f
+import speech_recognition
 import os
 
 print("\n\n"+"-"*10+"INITIALIZATION COMPLETED"+"-"*10+"\n")
@@ -73,8 +75,15 @@ while(selection_script):
 
 print("\n\n------start------\n")
 
+# Word Matching Module
+
 result = wordMatcher_demo(wavSelectedFile,txtSelectedFile)
-print("result = "+str(
+# result = 0
+
+
+# Result Displaying
+print("\n---------report---------\n")
+print("word matching result = "+str(
     result
     # wordMatcher_demo_index(4)
     # index
@@ -104,5 +113,49 @@ elif result > 0.3 :
 else:
     print("...\nwat\nda\n...")
 
+# Speech Recognition Module
+# speech_recognition.analyzeAudio(wavSelectedFile)
+wordSpeed = speedCounter_f()
+print(f'\nspeed = {wordSpeed} words per minute')
+speedResult = speech_recognition.speedAnalizer(wordSpeed)
+print(f"speed checker result = {speedResult[0]}")
 
-print("\n\n-------end-------\n")
+# commenting (not necessary, just for fun)
+if speedResult[0] == 1 :
+    print("Your speed is between 150-160 words per minute. Great Speed!")
+elif speedResult[0] > 0.9 :
+    if speedResult[1]:
+        print("A little too fast but ok")
+    else:
+        print("A little too slow but ok")
+elif speedResult[0] > 0.8 :
+    if speedResult[1]:
+        print("Slower would be great")
+    else:
+        print("Faster would be great")
+elif speedResult[0] > 0.7 :
+    if speedResult[1]:
+        print("Hmm, could be slower...")
+    else:
+        print("Hmm, could be faster...")
+elif speedResult[0] > 0.6 :
+    if speedResult[1]:
+        print("What? thats too fast!")
+    else:
+        print("What? thats too slow!")
+elif speedResult[0] > 0.5 :
+    if speedResult[1]:
+        print("doyoureallywanttotalklikethis?")
+    else:
+        print("IIIIIII THIIIIIIINK THAAAAAAAT IIIIIIIS TOOOOOOO SLOOOOOOOW")
+elif speedResult[0] > 0.4 :
+    print("Are you joking?")
+elif speedResult[0] > 0.3 :
+    print("Holy...")
+else:
+    print("...\nwat\nda\n...")
+print("\n------report ended------\n")
+
+
+
+print("\n-------end-------\n")

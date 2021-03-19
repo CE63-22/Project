@@ -4,20 +4,29 @@ import json
 import requests
 import deepcut
 from m4atowav import wavConverter
+from scipy.io import wavfile
 
 from flask import Flask, render_template
 from pydub import AudioSegment
 
 # pylint: disable=C0103
 app = Flask(__name__)
+
+wordCount = 0
+lenght = 0
         
 def transcribe_file(filepath,scriptpath):
     from google.cloud import speech
 
+    global wordCount
+    global lenght
+
+    sampleRate, data = wavfile.read(filepath)
+
     script = open(scriptpath,encoding='utf-8').read()
     path = filepath
-    sampleRate = 48000
-    channel = 2
+    # sampleRate = 48000
+    channel = data.shape[1]
     lang = "th-TH"
 
     script_words=deepcut.tokenize(script)
@@ -48,6 +57,8 @@ def transcribe_file(filepath,scriptpath):
 
         transcript_words=deepcut.tokenize(transcript)
         transcript_words=spaceEliminator(transcript_words)
+        wordCount = len(transcript_words)
+        lenght = data.shape[0] / sampleRate
 
         print("-" * 20)
         print("First alternative of result {}".format(i))
@@ -227,6 +238,11 @@ def wordMatcher_demo(filename,scriptname):
     print("Transcribing File '"+filename+"' on path: "+filepath)
     return transcribe_file(filepath,scriptpath)
     # return 1
+
+def speedCounter_f():
+    # print(f'wordCount = {wordCount} words, lenght = {lenght} secounds')
+    speed = wordCount/(lenght/60)
+    return speed
 
 def spaceEliminator(list):
     poppingIndexes = []
