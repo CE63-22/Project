@@ -66,22 +66,41 @@ def transcribe_file(filepath,scriptpath):
         print("Script: {}".format(script))
         #print("Deepcut: {}".format(deepcut.tokenize(transcript)))
         match = 0
+        notMatch = 0
             
-            #choosing which listhas the lesser lenght...
+            #choosing which list has the lesser lenght...
+        lenDiff = 0
         if len(script_words) < len(transcript_words):
             shorterScriptCount = len(script_words)
+            longerScriptCount = len(transcript_words)
+            lenDiff = longerScriptCount-shorterScriptCount
         else:
             shorterScriptCount = len(transcript_words)
+            longerScriptCount = len(script_words)
+            
+        print(f"##DEBUG## lenDiff = {lenDiff}")                                                           # DEBUG
+        print(f"##DEBUG## len(script_words) = {len(script_words)}")                                       # DEBUG
+        print(f"##DEBUG## len(script_words)/2 = {len(script_words)/2}")                                   # DEBUG
+        print(f"##DEBUG## script_words[{int(len(script_words)/2)}] = {script_words[int(len(script_words)/2)]}")    # DEBUG
+        print(f"##DEBUG## len(script_words)/4 = {len(script_words)/4}")                                   # DEBUG
+        print(f"##DEBUG## script_words[{int(len(script_words)/4)}] = {script_words[int(len(script_words)/4)]}")    # DEBUG
 
             # ...and use it in matching.
         for i in range(shorterScriptCount):
-            # print("\tDEBUG: MATCHING WORD:( "+transcript_words[i]+" , "+script_words[i]+" )") # DEBUG
+            # print("\tDEBUG: MATCHING WORD:( "+transcript_words[i]+" , "+script_words[i]+" )")             # DEBUG
             if script_words[i] == transcript_words[i]:
                 # print("\tDEBUG: MATCHING RESULT: MATCHED")        # DEBUG
                 match+=1
-            # else:
+            else:
+                notMatch+=1
                 # print("\tDEBUG: MATCHING RESULT: NOT MATCHED")    # DEBUG
-        match_result=match/len(script_words)
+        notMatch+=longerScriptCount-shorterScriptCount
+        loss = lenDiff/len(transcript_words)
+        print(f"##DEBUG## Words = {len(script_words)}")# DEBUG
+        print(f"##DEBUG## Matched Words = {match}")# DEBUG
+        print(f"##DEBUG## Not Matched Words = {notMatch}")# DEBUG
+        match_result=(1-loss)*match/len(script_words)
+        # print(f"##DEBUG## Word Loss from lenght difference: {loss}")# DEBUG
         print("Matched Result: {} %".format(match_result*100))      # show match result in percentage.
         print(u"Channel Tag: {}".format(result.channel_tag))        
     return match_result

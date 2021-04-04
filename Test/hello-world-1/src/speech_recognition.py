@@ -21,44 +21,57 @@ def analyzeAudio(audioName):
     print(type(data))
 
     c = 0
+    samplesize = 10
     bits = np.empty((0, 2), int)
-    bitsize = int(samplerate/10)
+    rawbits = np.empty((0, 2), int)
+    bitsize = int(samplerate/samplesize)
     print(length)
-    while c<length*10:
+    while c<length*samplesize:
+    # while c<samplesize:
+        print('c : '+str(c))
         bitdata = 0
-        c_remain = length*10-c
+        print('\t\tinitail bitdata = '+str(bitdata))
+        c_remain = length*samplesize-c
         if(c_remain<1):
             last_calculation_index = data.shape[0]
         else:
             last_calculation_index = bitsize*(c+1)
 
-        # Debug Printing
+        #   Debug Printing
         # print('loop: '+str(c))
         # print('\tloop start bit: '+str(bitsize*c))
         # print('\tloop last bit: '+str(last_calculation_index))
         # print('\tloop remaining: '+str(c_remain))
         
         for i in range(bitsize*c,last_calculation_index):
-            bitdata += data[i]
-        # print('\tbitdata = '+str(bitdata))
+            x = np.absolute(data[i])
+            if(x[0]<0):
+                print('\tdata = '+str(x))
+            # if c == 3:
+            #     print('\tdata = '+str(x))
+            bitdata += x
+            
+        bitdata = np.absolute(bitdata)
+        print('\tbitdata = '+str(bitdata))
         avgbitdata = bitdata/bitsize
         # print('\tavgbitdata = '+str(avgbitdata))
         bits = np.append(bits, np.array([avgbitdata]), axis=0)
+        rawbits = np.append(rawbits, np.array([bitdata]), axis=0)
         c+=1
     print(bits)
     print(type(bits))
 
-    samplerate, data = wavfile.read(audioPath)
     print(f"number of channels = {data.shape[1]}")
     length = data.shape[0] / samplerate
     # length = data.shape[0] / 100
     print(f"length = {length}s")
 
     time0 = np.linspace(0., length, data.shape[0])
-    time1 = np.linspace(0., length, int(length*10)+1)
+    time1 = np.linspace(0., length, int(length*samplesize)+1)
     plt.plot(time0, data[:, 0], label="Left channel")
     plt.plot(time0, data[:, 1], label="Right channel")
     plt.plot(time1, bits[:, 0], label="Average")
+    plt.plot(time1, rawbits[:, 0], label="Raw")
     plt.legend()
     plt.xlabel("Time [s]")
     plt.ylabel("Amplitude")

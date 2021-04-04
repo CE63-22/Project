@@ -77,11 +77,11 @@ print("\n\n------start------\n")
 
 # Word Matching Module
 
-result = wordMatcher_demo(wavSelectedFile,txtSelectedFile)
-# result = 0
+result = wordMatcher_demo(wavSelectedFile,txtSelectedFile)    # Real Word_Matching_Module
+# result = 0                                                    # Debug
 
 
-# Result Displaying
+## Result Displaying
 print("\n---------report---------\n")
 print("word matching result = "+str(
     result
@@ -95,7 +95,7 @@ print("word matching result = "+str(
         # 5 = 04Noey.m4a
     ))
 
-# commenting (not necessary, just for fun)
+## commenting (not necessary, just for fun)
 if result > 0.9 :
     print("That's Great!")
 elif result > 0.8 :
@@ -114,13 +114,15 @@ else:
     print("...\nwat\nda\n...")
 
 # Speech Recognition Module
-# speech_recognition.analyzeAudio(wavSelectedFile)
 wordSpeed = speedCounter_f()
 print(f'\nspeed = {wordSpeed} words per minute')
 speedResult = speech_recognition.speedAnalizer(wordSpeed)
 print(f"speed checker result = {speedResult[0]}")
 
-# commenting (not necessary, just for fun)
+# speech_recognition.analyzeAudio(wavSelectedFile)
+# speedResult = [0,True]
+
+## commenting (not necessary, just for fun)
 if speedResult[0] == 1 :
     print("Your speed is between 150-160 words per minute. Great Speed!")
 elif speedResult[0] > 0.9 :
